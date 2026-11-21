@@ -3,70 +3,85 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vice Cover Lab — GTA-style cover art maker</title>
+<title>Vice Cover Lab — GTA 6-style cover art studio</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<header class="topbar">
+  <h1>VICE COVER LAB</h1>
+  <p class="tagline">Your photo, your words — a Vice City poster in one click. Runs offline; your photos never leave this machine.</p>
+</header>
 <main class="app">
-  <section class="stage">
-    <canvas id="stage" width="1080" height="1080" aria-label="Cover preview — click a panel to select it, drag to crop, scroll to zoom"></canvas>
-    <p class="hint">Click a panel to select it · drag its photo to crop · scroll to zoom · arrow keys nudge</p>
-  </section>
-  <aside class="panel" aria-label="Cover controls">
-    <h1>Vice Cover Lab</h1>
-    <p class="tagline">Your photo + a caption, turned into GTA-poster-style cover art. Photos never leave this machine.</p>
-
-    <fieldset>
-      <legend>1 · Photos</legend>
-      <label class="file">Add photos <input id="photo" type="file" accept="image/*" multiple></label>
-      <div class="row">
-        <button id="samples" type="button">Use sample photos</button>
-        <button id="clearPanel" type="button">Clear panel</button>
-      </div>
-      <p class="panel-info"><span id="panelInfo">Panel 1 of 3</span></p>
-      <label>Zoom <span id="zoomReadout">100%</span>
-        <input id="zoom" type="range" min="100" max="400" value="100" step="5">
+  <section class="controls" aria-label="Cover controls">
+    <div class="group">
+      <label class="file-label">Photo <span class="hint">one photo fills every panel; up to four spread across them</span>
+        <input id="photo" type="file" accept="image/*" multiple>
       </label>
-      <button id="resetCrop" type="button">Reset crop</button>
-    </fieldset>
-
-    <fieldset>
-      <legend>2 · Layout</legend>
-      <div id="layouts" class="layout-grid" role="group" aria-label="Panel layout"></div>
-    </fieldset>
-
-    <fieldset>
-      <legend>3 · Colour grade</legend>
-      <div id="grades" class="grade-row" role="group" aria-label="Colour grade"></div>
-      <p class="grade-name" id="gradeName"></p>
-    </fieldset>
-
-    <fieldset>
-      <legend>4 · Caption</legend>
-      <label>Title <input id="title" type="text" maxlength="48" value="Sunset Heist"></label>
-      <label>Subtitle <input id="subtitle" type="text" maxlength="60" value="A Vice City story"></label>
-      <label>Tag <input id="tag" type="text" maxlength="24" value="Vice City"></label>
-      <div id="lettering" class="opt-row" role="group" aria-label="Lettering style"></div>
-      <div class="checks">
-        <label><input id="sunburst" type="checkbox" checked> Sunburst</label>
-        <label><input id="halftone" type="checkbox" checked> Halftone</label>
-        <label><input id="grain" type="checkbox" checked> Grain</label>
-        <label><input id="frame" type="checkbox" checked> Frame</label>
+      <button id="sample" type="button" class="secondary">Load the sample photos</button>
+    </div>
+    <div class="group">
+      <label>Title <input id="title" type="text" maxlength="24" value="VICE CITY"></label>
+      <label>Subtitle <input id="subtitle" type="text" maxlength="32" value="Sunset Heist"></label>
+    </div>
+    <div class="group">
+      <span class="group-label">Layout</span>
+      <div class="picker" role="group" aria-label="Layout">
+        <button type="button" data-layout="grid" class="active">Grid 2×2</button>
+        <button type="button" data-layout="hero-three">Hero + 3</button>
+        <button type="button" data-layout="bleed">Full bleed</button>
+        <button type="button" data-layout="strip">Strip</button>
+        <button type="button" data-layout="poster">Poster</button>
       </div>
-    </fieldset>
-
-    <fieldset>
-      <legend>5 · Export</legend>
-      <div id="sizes" class="opt-row" role="group" aria-label="Export size"></div>
-      <button id="surprise" type="button">🎲 Surprise me</button>
-      <button id="export" type="button" class="export">⬇ Export PNG</button>
+    </div>
+    <div class="group">
+      <span class="group-label">Colour grade</span>
+      <div class="picker" role="group" aria-label="Colour grade">
+        <button type="button" data-grade="sunset" class="active">Vice Sunset</button>
+        <button type="button" data-grade="neon">Neon Night</button>
+        <button type="button" data-grade="gold">Palm Gold</button>
+        <button type="button" data-grade="noir">Mono Noir</button>
+        <button type="button" data-grade="acid">Acid Lime</button>
+      </div>
+    </div>
+    <div class="group">
+      <span class="group-label">Lettering</span>
+      <div class="picker" role="group" aria-label="Lettering">
+        <button type="button" data-lettering="block" class="active">Block</button>
+        <button type="button" data-lettering="neon">Neon</button>
+        <button type="button" data-lettering="outline">Outline</button>
+        <button type="button" data-lettering="sunset">Sunset fill</button>
+      </div>
+    </div>
+    <div class="group">
+      <span class="group-label" id="panel-label">Panel 1 of 4</span>
+      <p class="hint">Click a panel on the cover to pick it, then frame its photo.</p>
+      <label>Zoom <input id="zoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
+      <label>Pan left–right <input id="panx" type="range" min="-1" max="1" step="0.05" value="0"></label>
+      <label>Pan up–down <input id="pany" type="range" min="-1" max="1" step="0.05" value="0"></label>
+      <div class="row">
+        <button id="next-photo" type="button" class="secondary">Next photo in this panel</button>
+        <button id="clear-photo" type="button" class="secondary">Procedural panel</button>
+      </div>
+    </div>
+    <div class="group">
+      <span class="group-label">Export size</span>
+      <div class="picker" role="group" aria-label="Export size">
+        <button type="button" data-size="square">1080 × 1080</button>
+        <button type="button" data-size="story">1080 × 1350</button>
+        <button type="button" data-size="wide" class="active">1920 × 1080</button>
+      </div>
+      <button id="export" type="button" class="primary">Export PNG</button>
       <p id="status" role="status"></p>
-    </fieldset>
-  </aside>
+    </div>
+  </section>
+  <section class="stage-wrap">
+    <div id="stage" class="stage">
+      <canvas id="cover" width="1920" height="1080" aria-label="The cover preview"></canvas>
+    </div>
+    <h2>Gallery</h2>
+    <div id="gallery" class="gallery" aria-label="Exported covers"></div>
+  </section>
 </main>
-<pre id="testReport" style="display:none"></pre>
-<script src="./src/cover.js"></script>
-<script src="./src/shots.js"></script>
-<script src="./src/main.js"></script>
+<script type="module" src="./src/main.js"></script>
 </body>
 </html>
