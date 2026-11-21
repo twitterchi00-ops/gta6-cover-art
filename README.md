@@ -2,76 +2,65 @@
 [![rank](https://make.fun/badge/gta6-cover-art-01/twitterchi00-ops/gta6-cover-art/rank.svg)](https://make.fun/bounty/gta6-cover-art-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 [![reward](https://make.fun/badge/gta6-cover-art-01/twitterchi00-ops/gta6-cover-art/reward.svg)](https://make.fun/bounty/gta6-cover-art-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-cover-art-01)
 
-# Vice Cover Lab — GTA-style cover art maker
+# Vice Cover Lab — make.fun `gta6-cover-art-01`
 
-Turn your photo and a caption into cover art in the style of GTA 6's posters:
-the multi-panel poster look, bold caption lettering, and a Vice City sunset or
-neon colour grade — exported as a PNG to share. Made for the
-[make.fun GTA 6 Cover Art bounty](https://make.fun/bounty/gta6-cover-art-01)
-(`gta6-cover-art-01`, $250 USDC top-50 split).
-
-Everything is original: the art is drawn from code (gradients, sunburst,
-halftone, grain, a synthwave grid floor), the lettering uses our own vendored
-OFL fonts (Anton and Archivo Black), and the sample photos are the kit's free
-model-made images. No Rockstar logo, artwork, character or font anywhere.
+Entry for the make.fun bounty **gta6-cover-art-01** ("Build the best GTA 6
+cover art", $250 USDC top-50, free entry, deadline 21 Nov 2026 14:00 Tehran).
+A web app that turns your photo and a caption into GTA 6-style cover art
+and exports it as a PNG to share. It runs offline in a desktop browser
+from its own static files: the photos never leave your machine.
 
 ## What it does
 
-- **Any photo** — upload one or several photos from your machine (never
-  uploaded anywhere); each panel gets its own photo.
-- **Crop & position** — click a panel, drag its photo to pan, scroll (or the
-  slider) to zoom, arrow keys nudge, reset crop any time.
-- **Multi-panel layouts** — Solo, Duo, Trio (the poster classic), Quad grid,
-  and Strip (hero on top). Empty panels show a procedural synthwave scene
-  (glowing slatted sun, skyline with lit windows, perspective grid floor,
-  palm silhouettes) until you add a photo.
-- **Caption** — title (auto-fits to one or two lines by binary search),
-  subtitle, and a location tag pill; four lettering styles: Sunset gradient,
-  Neon glow, Chrome, Outline.
-- **Colour grades** — Vice Sunset, Neon Nights, Palm Dusk, Chrome Vice,
-  Bubblegum; each with its own wash, vignette and glow.
-- **Effects** — sunburst rays behind the title, halftone dots, film grain,
-  poster frame with corner ticks and an inner glow hairline; all toggleable.
-- **Fast** — "Use sample photos" + "🎲 Surprise me" get you from nothing to a
-  cover in seconds; export is one click.
-- **Export PNG** — 1080 × 1080 (square), 1080 × 1350 (portrait),
-  1920 × 1080 (wide), rendered fresh at full size.
+- **5 layouts**: Grid 2×2, Hero + 3, Full bleed, Strip, Poster — the
+  multi-panel poster look, with a title band (or a scrim on full bleed).
+- **5 colour grades**: Vice Sunset, Neon Night, Palm Gold, Mono Noir,
+  Acid Lime — a wash over every panel plus a vignette.
+- **4 lettering styles**: Block, Neon, Outline, Sunset fill — Anton and
+  Archivo Black, both shipped under the SIL Open Font License.
+- **Any photo**: load up to 4 photos from your machine. One photo fills
+  every panel; several spread across them. Click a panel to select it,
+  then zoom and pan its photo, swap in the next photo, or leave the
+  panel procedural.
+- **Procedural panels**: a panel with no photo draws its own synthwave
+  scene — gradient sky, a slatted setting sun, a perspective grid floor,
+  a skyline and palms — so the cover is striking even before you add a
+  photo.
+- **Export**: one click exports a PNG in 1080 × 1080, 1080 × 1350 or
+  1920 × 1080, and keeps it in the gallery strip below the stage.
 
-## Run it (offline, no build step)
+## Try it
 
-```sh
-node serve.ts        # serves app/ on http://localhost:8080
+Serve `app/` with any static server and open `index.html`, or run the
+bundled one from this directory:
+
+```
+node serve.ts
 ```
 
-Or open `app/index.html` directly in desktop Chrome — classic scripts, so it
-works from `file://` too, with no network request at all. Every script, font
-and image it loads is a file under `app/`.
+then open http://localhost:8080.
 
-## Hand it in
+## Hand in
 
-```sh
+`main.ts` (Node 22, standard library only) copies `app/` and
+`screenshots/` to `/output` and writes `/output/dossier.json` with the
+vendored make.fun library:
+
+```
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-`main.ts` (Node 22, standard library only) copies `app/` and `screenshots/`
-to the output directory and writes `dossier.json` with the vendored
-`vendor/makefun-app.ts` library.
-
-## Screenshots
-
-`1-cover.jpg` is the exported wide cover; `2-editor.jpg` is the editor with
-photos loaded; `3-cover-portrait.jpg` and `4-cover-square.jpg` are exported
-covers in the other post sizes. They were taken from the app itself
-(`shots.json` lists the scenes; `?shot=cover|editor` in the URL reproduces
-them) with the kit's free sample photos.
-
 ## Files
 
-- `app/index.html`, `app/style.css` — the editor page.
-- `app/src/cover.js` — the cover renderer: layouts, grades, lettering,
-  procedural synthwave scenes, halftone/grain/sunburst/frame.
-- `app/src/main.js` — editor wiring: upload, drag/zoom crop, export.
-- `app/src/shots.js` — fixed screenshot scenes (`?shot=`) and the export test.
-- `app/fonts/` — Anton + Archivo Black (SIL Open Font License, see `OFL.txt`).
-- `app/samples/` — the kit's free model-made sample photos.
-- `main.ts`, `vendor/makefun-app.ts`, `serve.ts`, `shots.json`.
+- `app/index.html` — the studio page
+- `app/style.css` — the dark neon studio theme
+- `app/src/cover.js` — the cover renderer (layouts, grades, lettering,
+  procedural synthwave panels)
+- `app/src/main.js` — the state and the controls
+- `app/src/shots.js` — the fixed screenshot scenes
+- `app/fonts/` — Anton and Archivo Black (SIL OFL, license in OFL.txt)
+- `app/samples/` — the kit's two sample photos (free to use)
+- `main.ts` — the entry program; `serve.ts` — the local static server
+- `shots.json` — the four screenshot scenes; `screenshots/` — the shots
+
+Everything is original work: no Rockstar Games logo, artwork or font.
