@@ -1,87 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vice Cover Lab — GTA 6-style cover art studio</title>
-<link rel="stylesheet" href="./style.css">
+<title>Vice Cover Lab — GTA 6-style cover art maker</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="topbar">
+<header>
   <h1>VICE COVER LAB</h1>
-  <p class="tagline">Your photo, your words — a Vice City poster in one click. Runs offline; your photos never leave this machine.</p>
+  <p>Turn your photo into GTA-style cover art. Pick a layout, a grade, a lettering style — export a PNG to share.</p>
 </header>
-<main class="app">
-  <section class="controls" aria-label="Cover controls">
-    <div class="group">
-      <label class="file-label">Photo <span class="hint">one photo fills every panel; up to four spread across them</span>
-        <input id="photo" type="file" accept="image/*" multiple>
-      </label>
-      <button id="sample" type="button" class="secondary">Load the sample photos</button>
-    </div>
-    <div class="group">
-      <label>Title <input id="title" type="text" maxlength="24" value="VICE CITY"></label>
-      <label>Subtitle <input id="subtitle" type="text" maxlength="32" value="Sunset Heist"></label>
-    </div>
-    <div class="group">
-      <span class="group-label">Layout</span>
-      <div class="picker" role="group" aria-label="Layout">
-        <button type="button" data-layout="grid" class="active">Grid 2×2</button>
-        <button type="button" data-layout="hero-three">Hero + 3</button>
-        <button type="button" data-layout="bleed">Full bleed</button>
-        <button type="button" data-layout="strip">Strip</button>
-        <button type="button" data-layout="poster">Poster</button>
-      </div>
-    </div>
-    <div class="group">
-      <span class="group-label">Colour grade</span>
-      <div class="picker" role="group" aria-label="Colour grade">
-        <button type="button" data-grade="sunset" class="active">Vice Sunset</button>
-        <button type="button" data-grade="neon">Neon Night</button>
-        <button type="button" data-grade="gold">Palm Gold</button>
-        <button type="button" data-grade="noir">Mono Noir</button>
-        <button type="button" data-grade="acid">Acid Lime</button>
-      </div>
-    </div>
-    <div class="group">
-      <span class="group-label">Lettering</span>
-      <div class="picker" role="group" aria-label="Lettering">
-        <button type="button" data-lettering="block" class="active">Block</button>
-        <button type="button" data-lettering="neon">Neon</button>
-        <button type="button" data-lettering="outline">Outline</button>
-        <button type="button" data-lettering="sunset">Sunset fill</button>
-      </div>
-    </div>
-    <div class="group">
-      <span class="group-label" id="panel-label">Panel 1 of 4</span>
-      <p class="hint">Click a panel on the cover to pick it, then frame its photo.</p>
-      <label>Zoom <input id="zoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
-      <label>Pan left–right <input id="panx" type="range" min="-1" max="1" step="0.05" value="0"></label>
-      <label>Pan up–down <input id="pany" type="range" min="-1" max="1" step="0.05" value="0"></label>
-      <div class="row">
-        <button id="next-photo" type="button" class="secondary">Next photo in this panel</button>
-        <button id="clear-photo" type="button" class="secondary">Procedural panel</button>
-      </div>
-    </div>
-    <div class="group">
-      <span class="group-label">Export size</span>
-      <div class="picker" role="group" aria-label="Export size">
-        <button type="button" data-size="square">1080 × 1080</button>
-        <button type="button" data-size="story">1080 × 1350</button>
-        <button type="button" data-size="wide" class="active">1920 × 1080</button>
-      </div>
-      <button id="export" type="button" class="primary">Export PNG</button>
-      <p id="status" role="status"></p>
-    </div>
+<main>
+  <section class="stage">
+    <canvas id="preview" width="1080" height="1080"></canvas>
+    <p class="hint">Click the cover to switch the panel you crop. Use the sliders to pan and zoom it.</p>
+    <div id="gallery" class="gallery"></div>
   </section>
-  <section class="stage-wrap">
-    <div id="stage" class="stage">
-      <canvas id="cover" width="1920" height="1080" aria-label="The cover preview"></canvas>
+  <section class="controls">
+    <label>Photo
+      <input type="file" id="photoFile" accept="image/*">
+    </label>
+    <div class="row">
+      <button id="sampleBoulevard">Sample: Boulevard</button>
+      <button id="samplePier">Sample: Pier</button>
     </div>
-    <h2>Gallery</h2>
-    <div id="gallery" class="gallery" aria-label="Exported covers"></div>
+    <label>Title <input id="title" type="text" value="Sunset Heist" maxlength="24"></label>
+    <label>Subtitle <input id="subtitle" type="text" value="Vice City Stories" maxlength="32"></label>
+    <div class="group"><span>Layout</span><div id="layouts" class="picks"></div></div>
+    <div class="group"><span>Grade</span><div id="grades" class="picks"></div></div>
+    <div class="group"><span>Lettering</span><div id="letterings" class="picks"></div></div>
+    <div class="group"><span>Export size</span><div id="sizes" class="picks"></div></div>
+    <div class="group">
+      <span id="panelLabel">Panel 1</span>
+      <label>Pan X <input id="panX" type="range" min="-1" max="1" step="0.05" value="0"></label>
+      <label>Pan Y <input id="panY" type="range" min="-1" max="1" step="0.05" value="0"></label>
+      <label>Zoom <input id="zoom" type="range" min="1" max="2" step="0.05" value="1"></label>
+      <button id="nextPanel">Next panel</button>
+    </div>
+    <button id="exportBtn" class="export">Export PNG</button>
   </section>
 </main>
-<script type="module" src="./src/main.js"></script>
+<script type="module" src="src/main.js"></script>
 </body>
 </html>

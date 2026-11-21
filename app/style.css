@@ -1,150 +1,72 @@
 @font-face {
   font-family: 'Anton';
-  src: url('./fonts/Anton-Regular.ttf') format('truetype');
+  src: url('fonts/Anton-Regular.ttf') format('truetype');
   font-weight: 400;
-  font-display: swap;
 }
 @font-face {
   font-family: 'Archivo Black';
-  src: url('./fonts/ArchivoBlack-Regular.ttf') format('truetype');
+  src: url('fonts/ArchivoBlack-Regular.ttf') format('truetype');
   font-weight: 400;
-  font-display: swap;
 }
-
-html, body {
+* { box-sizing: border-box; }
+body {
   margin: 0;
-  min-height: 100%;
-  background: #0a0616;
-  color: #f2ecff;
-  font: 15px/1.45 system-ui, -apple-system, sans-serif;
+  background: #0d0b1e;
+  color: #f2f2f7;
+  font-family: 'Archivo Black', system-ui, sans-serif;
 }
-.topbar {
-  padding: 18px 28px 8px;
-  border-bottom: 2px solid #ff2e88;
-}
-.topbar h1 {
-  margin: 0;
-  font-family: 'Anton', 'Arial Black', sans-serif;
+header { padding: 18px 22px 4px; }
+header h1 {
+  font-family: 'Anton', sans-serif;
   font-size: 34px;
   letter-spacing: 2px;
-  color: #ffffff;
-  text-shadow: 0 0 18px rgba(255, 46, 136, 0.65);
+  margin: 0;
+  background: linear-gradient(90deg, #ff2d78, #ff7a18, #ffd319);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
-.tagline { margin: 4px 0 0; color: #b9a8d9; }
-.app {
-  display: flex;
-  gap: 28px;
-  align-items: flex-start;
-  padding: 22px 28px 32px;
-  box-sizing: border-box;
-}
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  width: 320px;
-  flex: none;
-}
-.group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px;
-  border: 1px solid #33244f;
-  border-radius: 10px;
-  background: #150b28;
-}
-.group-label { font-weight: 700; color: #ffb347; letter-spacing: 0.4px; }
-.hint { margin: 0; color: #9d8bbd; font-size: 13px; font-weight: 400; }
-.file-label { display: flex; flex-direction: column; gap: 6px; font-weight: 700; }
-label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
-input[type=text] {
-  font: inherit;
-  padding: 9px 10px;
-  border: 1px solid #4a3670;
-  border-radius: 6px;
-  background: #0d0719;
-  color: #f2ecff;
-}
-input[type=range] { width: 100%; accent-color: #ff2e88; }
-.picker { display: flex; flex-wrap: wrap; gap: 6px; }
-.picker button {
-  font: inherit;
-  font-size: 13px;
-  padding: 7px 10px;
-  border: 1px solid #4a3670;
-  border-radius: 20px;
-  background: #0d0719;
-  color: #d9cdf0;
-  cursor: pointer;
-}
-.picker button.active {
-  background: #ff2e88;
-  border-color: #ff2e88;
-  color: #ffffff;
-  font-weight: 700;
-}
-button {
-  font: inherit;
-  font-weight: 700;
-  padding: 10px 14px;
-  border: 0;
-  border-radius: 8px;
-  background: #2ee6ff;
-  color: #08131a;
-  cursor: pointer;
-}
-button.secondary { background: #241640; color: #d9cdf0; border: 1px solid #4a3670; }
-button.primary {
-  background: linear-gradient(90deg, #ff2e88, #ff7a2f);
-  color: #ffffff;
-  font-size: 16px;
-  padding: 12px;
-}
-.row { display: flex; gap: 8px; }
-.row button { flex: 1; font-size: 13px; }
-#status { margin: 0; min-height: 20px; color: #2ee6ff; }
-.stage-wrap { flex: 1; min-width: 0; }
-.stage-wrap h2 {
-  margin: 18px 0 10px;
-  font-family: 'Anton', 'Arial Black', sans-serif;
-  letter-spacing: 1px;
-  color: #ffffff;
-}
-.stage {
-  display: flex;
-  justify-content: center;
-  padding: 14px;
-  border: 1px solid #33244f;
-  border-radius: 10px;
-  background: #150b28;
-}
-#cover {
+header p { color: #b9b3d6; font-size: 13px; max-width: 640px; }
+main { display: flex; gap: 18px; padding: 12px 22px 22px; flex-wrap: wrap; }
+.stage { flex: 1 1 520px; min-width: 320px; }
+#preview {
   width: 100%;
-  max-width: 960px;
-  height: auto;
-  display: block;
-  cursor: crosshair;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+  max-height: 72vh;
+  object-fit: contain;
+  background: #000;
+  border: 2px solid #2a2450;
+  border-radius: 8px;
+  cursor: pointer;
 }
-.gallery { display: flex; flex-wrap: wrap; gap: 12px; }
-.gallery figure { margin: 0; width: 160px; }
-.gallery canvas {
-  width: 160px;
-  height: auto;
-  display: block;
-  border: 1px solid #33244f;
-  border-radius: 6px;
+.hint { color: #8d86b8; font-size: 12px; }
+.gallery { display: flex; gap: 10px; margin-top: 10px; }
+.gallery canvas { width: 140px; height: auto; border: 1px solid #2a2450; border-radius: 6px; }
+.controls { flex: 0 1 320px; display: flex; flex-direction: column; gap: 12px; }
+.controls label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.controls input[type="text"], .controls input[type="file"] {
+  background: #17132e; color: #fff; border: 1px solid #3a3168;
+  border-radius: 6px; padding: 7px 9px; font: inherit;
 }
-.gallery figcaption { margin-top: 4px; font-size: 12px; color: #b9a8d9; }
-
-/* Screenshot scenes: the cover alone, full frame, no controls. */
-body.shot-cover { background: #000000; }
-body.shot-cover .topbar,
-body.shot-cover .controls,
-body.shot-cover .stage-wrap h2,
-body.shot-cover .gallery { display: none; }
-body.shot-cover .app { padding: 0; }
-body.shot-cover .stage-wrap { flex: 1; }
-body.shot-cover .stage { padding: 0; border: 0; background: #000; }
-body.shot-cover #cover { max-width: none; width: 100vw; height: 100vh; object-fit: contain; box-shadow: none; }
+.group { border: 1px solid #2a2450; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.group > span { font-size: 12px; color: #b9b3d6; letter-spacing: 1px; text-transform: uppercase; }
+.picks { display: flex; flex-wrap: wrap; gap: 6px; }
+.pick {
+  background: #1c1740; color: #e8e4ff; border: 1px solid #3a3168;
+  border-radius: 20px; padding: 6px 12px; cursor: pointer; font: inherit; font-size: 12px;
+}
+.pick.on { background: #ff2d78; border-color: #ff2d78; color: #fff; }
+.row { display: flex; gap: 8px; }
+.row button, #nextPanel {
+  background: #1c1740; color: #e8e4ff; border: 1px solid #3a3168;
+  border-radius: 6px; padding: 7px 10px; cursor: pointer; font: inherit; font-size: 12px;
+}
+.export {
+  background: linear-gradient(90deg, #ff2d78, #ff7a18);
+  color: #fff; border: 0; border-radius: 8px; padding: 12px;
+  font: inherit; font-size: 15px; cursor: pointer;
+}
+/* Screenshot mode: cover alone, full viewport. */
+body.shot-cover header, body.shot-cover .controls, body.shot-cover .hint, body.shot-cover .gallery { display: none; }
+body.shot-cover main { padding: 0; }
+body.shot-cover .stage { flex: 1 1 100%; }
+body.shot-cover #preview { width: 100vw; height: 100vh; max-height: none; border: 0; border-radius: 0; }
